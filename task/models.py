@@ -1,12 +1,14 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 from common.models import BaseModel
 from enums.base import TaskStatus
-from todo_app_raw.settings import AUTH_USER_MODEL
+
+User = get_user_model()
 
 
 class Task(BaseModel):
-    author = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     content = models.TextField()
     status = models.BooleanField(default=TaskStatus.PUBLISHED)
