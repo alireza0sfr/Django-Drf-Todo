@@ -15,6 +15,9 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, password, **kwargs):
 
+        if self.model.objects.filter(is_superuser=True).count() >= 1:
+            raise ValueError(_('Superuser Already Created!'))
+
         kwargs.setdefault('is_superuser', True)
         kwargs.setdefault('is_staff', True)
         kwargs.setdefault('is_active', True)
