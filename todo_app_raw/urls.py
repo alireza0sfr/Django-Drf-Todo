@@ -1,10 +1,14 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+BASE_NAME = 'api'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(f'{BASE_NAME}/v1.0/', include('api.v1.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 ]
 
 if settings.DEBUG:
