@@ -1,5 +1,5 @@
-from django.urls import path, include
+from api.router import router
 
-urlpatterns = [
-    # path('tasks/', include('task.api.v1.urls')),
-]
+# router.register('tasks', SampleViewSet, basename='tasks')
+
+urlpatterns = router.urls
