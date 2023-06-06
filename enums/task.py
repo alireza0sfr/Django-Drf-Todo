@@ -2,9 +2,10 @@ from django.db import models
 
 
 class TaskStatus(models.IntegerChoices):
-    PUBLISHED = 1, 'Published'
-    ARCHIVED = 2, 'Archived'
-    DELETED = 3, 'Deleted'
+    DONE = 1, 'Done'
+    PUBLISHED = 2, 'Published'
+    ARCHIVED = 3, 'Archived'
+    DELETED = 4, 'Deleted'
 
 
 class TaskPriority(models.TextChoices):

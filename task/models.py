@@ -10,7 +10,6 @@ class Task(BaseModel):
     content = models.TextField(blank=True, null=True)
     status = models.IntegerField(default=TaskStatus.PUBLISHED, choices=TaskStatus.choices)
     category = models.ForeignKey('Category', on_delete=models.SET_DEFAULT, default=None, null=True, blank=True)
-    done = models.BooleanField(default=False)
     priority = models.CharField(default=TaskPriority.LOW, choices=TaskPriority.choices, max_length=10)
 
     def __str__(self):
