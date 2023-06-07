@@ -14,6 +14,9 @@ class Task(BaseModel):
 
     def __str__(self):
         return self.title
+    
+    def get_snippet(self):
+        return f'{self.content[0: 5]}...'
 
 
 class Category(BaseModel):
