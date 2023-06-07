@@ -6,9 +6,9 @@ from accounts.models import User
 
 class CustomUserAdmin(UserAdmin):
     model = User
-    list_display = ('email', 'is_staff', 'is_active', 'is_superuser', 'is_anonymous', 'is_verified')
+    list_display = ('email', 'id', 'is_staff', 'is_active', 'is_superuser', 'is_anonymous', 'is_verified')
     list_filter = list_display
-    search_fields = ('email',)
+    search_fields = ('email', 'id')
     ordering = search_fields
     fieldsets = (
         ('Authentication', {'fields': ('email', 'password')}),
