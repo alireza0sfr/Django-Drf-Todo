@@ -5,6 +5,7 @@ from django.dispatch import receiver
 
 from common.models import BaseModel
 from managers.accounts import UserManager
+from enums.accounts import BanReasons
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -33,6 +34,23 @@ class Profile(BaseModel):
 
     def __str__(self):
         return f'${self.first_name} {self.last_name}' if self.first_name else self.user.email
+
+
+class BaseBanModel(BaseModel):
+    until = models.DateTimeField()
+    reason = models.CharField(default=BanReasons.ABUSIVE, choices=BanReasons.choices, max_length=20)
+    description = models.TextField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f'[{self.reason}] - {self.description}'
+
+
+class UserBan(BaseBanModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class IPBan(BaseBanModel):
+    ip = models.GenericIPAddressField(unique=True, unpack_ipv4=True)
 
 
 @receiver(post_save, sender=User)
