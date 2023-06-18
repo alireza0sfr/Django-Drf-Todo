@@ -41,20 +41,22 @@ class BaseBanModel(BaseModel):
     reason = models.CharField(default=BanReasons.ABUSIVE, choices=BanReasons.choices, max_length=20)
     description = models.TextField(max_length=255, blank=True, null=True)
 
-    def __str__(self):
-        return f'[{self.reason}] - {self.description}'
-
 
 class UserBan(BaseBanModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.__str__()
 
 
 class IPBan(BaseBanModel):
     ip = models.GenericIPAddressField(unique=True, unpack_ipv4=True)
 
+    def __str__(self):
+        return self.ip
+
 
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, created, **kwargs):
-
     if created:
         Profile.objects.create(user=instance)
