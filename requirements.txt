@@ -9,3 +9,4 @@ djangorestframework
 python-decouple
 markdown
 django-filter
+drf-yasg[validation]
