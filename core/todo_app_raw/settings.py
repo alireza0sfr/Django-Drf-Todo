@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third Parties
+    'rest_framework.authtoken',
     'rest_framework',
     'django_filters',
     'drf_yasg',
@@ -134,3 +135,13 @@ STATICFILES_DIRS = [
 
 # User manager config
 AUTH_USER_MODEL = 'accounts.User'
+
+
+# restframework configs
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
