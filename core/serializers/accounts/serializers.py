@@ -7,7 +7,7 @@ class RegistrationModelSerializer(ModelSerializer):
     confirm_password = CharField(max_length=255, write_only=True)
     class Meta:
         model = User
-        fields = ['email', 'password', 'confirm_password']
+        fields = ['email', 'password', 'confirm_password', 'is_active' , 'is_anonymous', 'is_verified', 'is_staff']
 
     def validate(self, attrs):
         
