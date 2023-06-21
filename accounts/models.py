@@ -32,8 +32,12 @@ class Profile(BaseModel):
     image = models.ImageField(blank=True, null=True)
     bio = models.TextField(max_length=600, blank=True, null=True)
 
-    def __str__(self):
+    @property
+    def full_name(self):
         return f'${self.first_name} {self.last_name}' if self.first_name else self.user.email
+
+    def __str__(self):
+        return self.full_name
 
 
 class BaseBanModel(BaseModel):
