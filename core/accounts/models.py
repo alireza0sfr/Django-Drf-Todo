@@ -8,7 +8,7 @@ from managers.accounts import UserManager
 from enums.accounts import BanReasons
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(BaseModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
