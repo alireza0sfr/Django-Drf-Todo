@@ -5,9 +5,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken as OAT
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView as TOPV
 
 from serializers.accounts.serializers import RegistrationModelSerializer
 from serializers.accounts.serializers import AuthTokenSerializer
+from serializers.accounts.serializers import TokenObtainPairSerializer
 
 class RegistrationApiView(GenericAPIView):
     serializer_class = RegistrationModelSerializer
@@ -50,3 +52,7 @@ class DiscardAuthToken(APIView):
     def post(self, request):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class TokenObtainPairView(TOPV):
+    serializer_class = TokenObtainPairSerializer

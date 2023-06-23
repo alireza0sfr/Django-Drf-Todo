@@ -3,6 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils.translation import gettext_lazy as _
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer as TOPS
 
 from accounts.models import User
 class RegistrationModelSerializer(ModelSerializer):
@@ -65,3 +66,12 @@ class AuthTokenSerializer(Serializer):
 
         attrs['user'] = user
         return attrs
+    
+
+class TokenObtainPairSerializer(TOPS):
+
+    def validate(self, attrs):
+        validated_data = super().validate(attrs)
+        validated_data['email'] = self.user.email
+        validated_data['user_id'] = self.user.id
+        return validated_data

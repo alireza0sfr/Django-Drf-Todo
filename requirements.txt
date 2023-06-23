@@ -6,3 +6,4 @@ markdown
 django-filter
 drf-yasg[validation]
 djangorestframework-camel-case
+djangorestframework-simplejwt
