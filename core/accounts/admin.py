@@ -7,7 +7,7 @@ from accounts.models import UserBan, IPBan
 
 class CustomUserAdmin(UserAdmin):
     model = User
-    list_display = ('email', 'id', 'is_staff', 'is_active', 'is_superuser', 'is_anonymous', 'is_verified')
+    list_display = ('id', 'email', 'is_staff', 'is_active', 'is_superuser', 'is_anonymous', 'is_verified')
     list_filter = list_display
     search_fields = ('email', 'id')
     ordering = search_fields
@@ -36,6 +36,23 @@ class CustomUserAdmin(UserAdmin):
         return super().save_form(request, form, change)
 
 
+
+class CustomUserBanAdmin(admin.ModelAdmin):
+    model = UserBan
+    list_display = ('id', 'user', 'reason', 'description', 'until', 'created_date')
+    list_filter = list_display
+    search_fields = list_display
+    ordering = list_display
+
+    
+class CustomIPBanAdmin(admin.ModelAdmin):
+    model = IPBan
+    list_display = ('id', 'ip', 'reason', 'description', 'until', 'created_date')
+    list_filter = list_display
+    search_fields = list_display
+    ordering = list_display
+
+
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(UserBan)
-admin.site.register(IPBan)
+admin.site.register(UserBan, CustomUserBanAdmin)
+admin.site.register(IPBan, CustomIPBanAdmin)

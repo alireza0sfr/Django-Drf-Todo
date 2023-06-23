@@ -5,10 +5,10 @@ class BasePermission(permissions.BasePermission):
     """ BasePermission class adds all permissions for superUsers """
 
     def has_object_permission(self, request, view, obj):
-        return request.method in permissions.SAFE_METHODS and bool(request.user and request.user.is_superuser)
+        return bool(request.user and request.user.is_superuser)
 
     def has_permission(self, request, view):
-        return request.method in permissions.SAFE_METHODS and bool(request.user and request.user.is_superuser)
+        return bool(request.user and request.user.is_superuser)
 
 
 class IsSuperUser(BasePermission):
