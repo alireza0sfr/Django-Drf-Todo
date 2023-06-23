@@ -1,6 +1,8 @@
-from rest_framework.serializers import ModelSerializer, CharField, ValidationError as RestValidationError
+from rest_framework.serializers import ModelSerializer, CharField, Serializer, ValidationError as RestValidationError
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError as DjangoValidationError
+from django.utils.translation import gettext_lazy as _
 
 from accounts.models import User
 class RegistrationModelSerializer(ModelSerializer):
@@ -25,3 +27,41 @@ class RegistrationModelSerializer(ModelSerializer):
     def create(self, validated_data):
         validated_data.pop('confirm_password')
         return User.objects.create_user(**validated_data)
+    
+
+class AuthTokenSerializer(Serializer):
+    email = CharField(
+        label=_("Email"),
+        write_only=True
+    )
+    password = CharField(
+        label=_("Password"),
+        style={'input_type': 'password'},
+        trim_whitespace=False,
+        write_only=True
+    )
+    token = CharField(
+        label=_("Token"),
+        read_only=True
+    )
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        if email and password:
+            user = authenticate(request=self.context.get('request'),
+                                username=email, password=password)
+
+            # The authenticate call simply returns None for is_active=False
+            # users. (Assuming the default ModelBackend authentication
+            # backend.)
+            if not user:
+                msg = _('Unable to log in with provided credentials.')
+                raise RestValidationError(msg, code='authorization')
+        else:
+            msg = _('Must include "email" and "password".')
+            raise RestValidationError(msg, code='authorization')
+
+        attrs['user'] = user
+        return attrs
