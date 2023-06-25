@@ -59,7 +59,7 @@ class TokenObtainPairView(TOPV):
     serializer_class = TokenObtainPairSerializer
 
 
-class ChangePasswordView(GenericAPIView):
+class ChangePasswordGenericView(GenericAPIView):
         serializer_class = ChangePasswordSerializer
         model = User
         permission_classes = [IsAuthenticated]
