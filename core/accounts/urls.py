@@ -4,13 +4,16 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView
 )
 
-from accounts.views import TokenObtainPairView, ChangePasswordGenericView
+from api.router import router
+
+from accounts.views import TokenObtainPairView, ChangePasswordGenericView, ProfileViewSet
 
 from .views import RegistrationApiView, ObtainAuthToken, DiscardAuthToken
 
 urlpatterns = [
      path('registration/', RegistrationApiView.as_view(), name='registration'),
      path('change-password/', ChangePasswordGenericView.as_view(), name='change-password'),
+    #  path('profile/', ProfileViewSet.as_view(), name='profile'),
      
      # token
      path('token/login/', ObtainAuthToken.as_view(), name='token-login'),
@@ -22,3 +25,7 @@ urlpatterns = [
      path('jwt/verify/', TokenVerifyView.as_view(), name='jwt-verify')
 
 ]
+
+router.register('accounts/profile', ProfileViewSet)
+
+urlpatterns + router.urls

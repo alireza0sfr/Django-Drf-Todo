@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils.translation import gettext_lazy as _
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer as TOPS
 
+from accounts.models import Profile
 
 User = get_user_model()
 
@@ -98,3 +99,10 @@ class ChangePasswordSerializer(Serializer):
             raise RestValidationError({'new_password': list(e.messages)})
 
         return super().validate(attrs)
+
+
+class ProfileModelSerializer(ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = ['id', 'user', 'first_name', 'last_name', 'full_name', 'image', 'bio', 'created_date']
