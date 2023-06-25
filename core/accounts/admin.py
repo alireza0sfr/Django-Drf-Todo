@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from accounts.models import User
+from accounts.models import User, Profile
 from accounts.models import UserBan, IPBan
 
 
@@ -56,3 +56,4 @@ class CustomIPBanAdmin(admin.ModelAdmin):
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(UserBan, CustomUserBanAdmin)
 admin.site.register(IPBan, CustomIPBanAdmin)
+admin.site.register(Profile)
