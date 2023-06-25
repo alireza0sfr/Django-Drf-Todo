@@ -34,7 +34,7 @@ class Profile(BaseModel):
 
     @property
     def full_name(self):
-        return f'${self.first_name} {self.last_name}' if self.first_name else self.user.email
+        return f'{self.first_name} {self.last_name}' if self.first_name else self.user.email
 
     def __str__(self):
         return self.full_name
