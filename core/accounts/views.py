@@ -10,6 +10,10 @@ from rest_framework.decorators import action
 from rest_framework_simplejwt.views import TokenObtainPairView as TOPV
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.conf import settings
+
+import jwt
+from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError
 
 from serializers.accounts.serializers import RegistrationModelSerializer, AuthTokenSerializer, TokenObtainPairSerializer, ChangePasswordSerializer, ProfileModelSerializer
 from accounts.models import Profile
@@ -129,3 +133,20 @@ class ActivationEmail(ViewSet):
     def get(self, request, *args, **kwargs):
         user = self.request.user
         return Activation.activate_with_email(user)
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            token = jwt.decode(kwargs.get('token'), settings.SECRET_KEY, algorithms=['HS256'])
+            user = User.objects.get(pk=token.get('user_id'))
+            
+            if user.is_verified:
+                return Response({'details': 'Account is Already Verified!'}, status=status.HTTP_200_OK )
+            else:
+                user.is_verified = True
+                user.save()
+                return Response({'details': 'Account Activated Successfully!'}, status=status.HTTP_200_OK )
+            
+        except ExpiredSignatureError:
+            return Response({'detials': 'Token Has Been Expired!'}, status=status.HTTP_400_BAD_REQUEST)
+        except InvalidSignatureError:
+            return Response({'detials': 'Token is Invalid!'}, status=status.HTTP_400_BAD_REQUEST)
