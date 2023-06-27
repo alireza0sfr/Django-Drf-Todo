@@ -1,12 +1,17 @@
 from django.core.mail import send_mass_mail
 from rest_framework.response import Response
-from mail_templated import send_mail
+from mail_templated import EmailMessage
+
+from common.threading import Threading
 
 
 class Sender:
     @staticmethod
     def send_email(details={'name': 'Jon Doe'}, toEmail='a@a.com'):
-        send_mail('email/email.tpl', details, toEmail, ['b@b.com'])
+        message = EmailMessage('email/hello.tpl', details,
+                               toEmail, to=['b@b.com'])
+        
+        Threading(message.send).start()
         return Response({'detail': 'email sent!'})
 
     @staticmethod
