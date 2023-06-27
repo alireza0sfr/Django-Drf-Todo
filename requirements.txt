@@ -1,7 +1,12 @@
-django==4.1.2
-django-decouple
+# General
+asgiref==3.5.2
+Django==4.1.1
+sqlparse==0.4.2
 Pillow
 djangorestframework
+
+# Third Party
+python-decouple
 markdown
 django-filter
 drf-yasg[validation]
