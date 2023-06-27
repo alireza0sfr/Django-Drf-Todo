@@ -115,3 +115,9 @@ class ProfileViewSet(ViewSet):
         profile = get_object_or_404(self.queryset, user=request.user)
         serializer = self.serializer_class(profile)
         return Response(serializer.data)
+    
+
+class ActivationEmail(ViewSet):
+
+    def post(self, request, *args, **kwargs):
+        return Response({'detail': 'email sent!'})
