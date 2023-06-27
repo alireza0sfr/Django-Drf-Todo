@@ -13,7 +13,7 @@ from .views import RegistrationApiView, ObtainAuthToken, DiscardAuthToken
 urlpatterns = [
      path('registration/', RegistrationApiView.as_view(), name='registration'),
      path('change-password/', ChangePasswordGenericView.as_view(), name='change-password'),
-    #  path('profile/', ProfileViewSet.as_view(), name='profile'),
+     path('profile/', ProfileViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update'}), name='profile'),
      
      # token
      path('token/login/', ObtainAuthToken.as_view(), name='token-login'),
