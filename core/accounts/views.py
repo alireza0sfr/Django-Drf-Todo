@@ -25,10 +25,16 @@ class RegistrationApiView(GenericAPIView):
 
         if serializer.is_valid():
             object = serializer.save()
+            email = serializer.validated_data['email']
+
             response = {
-                'email': serializer.validated_data['email'],
+                'email': email,
                 'id': object.id
             }
+
+            user = get_object_or_404(User, email=email)
+            Activation.activate_with_email(user)
+            
             return Response(response, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
