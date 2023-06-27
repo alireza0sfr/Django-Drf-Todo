@@ -15,8 +15,8 @@ urlpatterns = [
      path('change-password/', ChangePasswordGenericView.as_view(), name='change-password'),
      path('profile/', ProfileViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update'}), name='profile'),
 
-     path('activation/confirm', ActivationEmail.as_view({'post': 'post'}), name='activation-confirm'),
-    #  path('activation/resend', ActivationEmail.as_view({'post': 'post'}), name='activation-resend'),
+     path('activation/confirm', ActivationEmail.as_view({'get': 'get'}), name='activation-confirm'),
+    #  path('activation/resend', ActivationEmail.as_view({'get': 'get'}), name='activation-resend'),
 
      
      # token

@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 
 from serializers.accounts.serializers import RegistrationModelSerializer, AuthTokenSerializer, TokenObtainPairSerializer, ChangePasswordSerializer, ProfileModelSerializer
 from accounts.models import Profile
+from common.senders import Sender
 
 
 User = get_user_model()
@@ -119,5 +120,5 @@ class ProfileViewSet(ViewSet):
 
 class ActivationEmail(ViewSet):
 
-    def post(self, request, *args, **kwargs):
-        return Response({'detail': 'email sent!'})
+    def get(self, request, *args, **kwargs):
+        return Sender.send_email()
