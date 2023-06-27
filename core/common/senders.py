@@ -1,18 +1,20 @@
 from django.core.mail import send_mass_mail
-from rest_framework.response import Response
+from django.conf import settings
 from mail_templated import EmailMessage
 
 from common.threading import Threading
 
 
 class Sender:
+
+    from_email = settings.EMAIL_FROM
+
     @staticmethod
-    def send_email(details={'name': 'Jon Doe'}, toEmail='a@a.com'):
-        message = EmailMessage('email/hello.tpl', details,
-                               toEmail, to=['b@b.com'])
-        
+    def send_email(template, details, toEmail):
+        message = EmailMessage(template, details, Sender.from_email, to=[toEmail])
+
         Threading(message.send).start()
-        return Response({'detail': 'email sent!'})
+        return {'detail': 'email sent!'}
 
     @staticmethod
     def send_mass_mail():
@@ -30,4 +32,4 @@ class Sender:
             ["second@test.com"],
         )
         send_mass_mail((message1, message2), fail_silently=False)
-        return Response({'detail': 'emails sent!'})
+        return {'detail': 'emails sent!'}
