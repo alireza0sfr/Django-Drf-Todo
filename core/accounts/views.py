@@ -10,6 +10,7 @@ from rest_framework.decorators import action
 from rest_framework_simplejwt.views import TokenObtainPairView as TOPV
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from serializers.accounts.serializers import RegistrationModelSerializer, AuthTokenSerializer, TokenObtainPairSerializer, ChangePasswordSerializer, ProfileModelSerializer
 from accounts.models import Profile
@@ -121,4 +122,13 @@ class ProfileViewSet(ViewSet):
 class ActivationEmail(ViewSet):
 
     def get(self, request, *args, **kwargs):
-        return Sender.send_email()
+
+        user = self.request.user
+        token = self.generate_token_for_user(user)
+
+        return Sender.send_email({'token': token})
+    
+    @staticmethod
+    def generate_token_for_user(user):
+        refresh = RefreshToken.for_user(user)
+        return str(refresh.access_token)
