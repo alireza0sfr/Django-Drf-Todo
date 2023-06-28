@@ -13,3 +13,4 @@ drf-yasg[validation]
 djangorestframework-camel-case
 djangorestframework-simplejwt
 django-mail-templated
+django-phonenumber-field[phonenumbers]

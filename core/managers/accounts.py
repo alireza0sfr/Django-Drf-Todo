@@ -47,6 +47,6 @@ class UserManager(BaseUserManager):
             raise ValueError(_('Email Must Be Set!'))
 
         if not password:
-            raise ValueError(_('Set Password!!'))
+            raise ValueError(_('Set Password!'))
 
         return True

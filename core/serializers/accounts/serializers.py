@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, get_user_model
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils.translation import gettext_lazy as _
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer as TOPS
+from phonenumber_field.validators import validate_international_phonenumber, ValidationError as PhoneNumberValidationError
 
 from accounts.models import Profile
 
@@ -15,7 +16,7 @@ class RegistrationModelSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'confirm_password',
+        fields = ['email', 'password', 'confirm_password', 'phone_number'
                   'is_active', 'is_anonymous', 'is_verified', 'is_staff']
 
     def validate(self, attrs):
@@ -27,7 +28,13 @@ class RegistrationModelSerializer(ModelSerializer):
             validate_password(attrs.get('password'))
         except DjangoValidationError as e:
             raise RestValidationError({'password': list(e.messages)})
-
+        
+        if attrs.get('phone_number'):
+            try:
+                validate_international_phonenumber(attrs.get('phone_number'))
+            except PhoneNumberValidationError as e:
+                raise RestValidationError({'phone_number': list(e.messages)})
+        
         return super().validate(attrs)
 
     def create(self, validated_data):

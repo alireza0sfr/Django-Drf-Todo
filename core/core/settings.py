@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework_simplejwt',
     'mail_templated',
+    'phonenumber_field',
 
     # Apps
     'accounts',
@@ -181,3 +182,9 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 EMAIL_FROM = 'b@b.com'
+
+
+# Phone Number
+PHONENUMBER_DB_FORMAT = 'E164'
+PHONENUMBER_DEFAULT_REGION = 'IR'
+PHONENUMBER_DEFAULT_FORMAT = 'E164'

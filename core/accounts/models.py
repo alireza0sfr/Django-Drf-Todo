@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from phonenumber_field.modelfields import PhoneNumberField
 
 from common.models import BaseModel
 from managers.accounts import UserManager
@@ -10,6 +11,7 @@ from enums.accounts import BanReasons
 
 class User(BaseModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
+    phone_number = PhoneNumberField(null=True, blank=True, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
