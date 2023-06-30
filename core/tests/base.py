@@ -1,0 +1,2 @@
+class BaseTests:
+    pass
