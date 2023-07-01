@@ -1,7 +1,7 @@
 from factory.django import DjangoModelFactory
+from factory import SubFactory
 
 from tests.base import BaseFactory
-from accounts.models import Profile, User
 
 class UserFactory(DjangoModelFactory, BaseFactory):
   
@@ -9,12 +9,12 @@ class UserFactory(DjangoModelFactory, BaseFactory):
   is_verified = True
 
   class Meta:
-      model = User
+      model = 'accounts.User'
 
 class ProfileFactory(DjangoModelFactory, BaseFactory):
-    user = UserFactory.build()
+    user = SubFactory(UserFactory)
     first_name = 'john'
     last_name = 'doe'
 
     class Meta:
-        model = Profile
+        model = 'accounts.Profile'

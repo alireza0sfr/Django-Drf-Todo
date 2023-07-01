@@ -1,13 +1,16 @@
+import pytest
+
 from tests.base import BaseTest
 from .factories import TaskFactory
 from enums.task import TaskPriority, TaskStatus
 
 class TestTaskAPI(BaseTest):
     
+    @pytest.mark.django_db
     def test_new_object(self):
 
         # Arrange
-        task = TaskFactory.build()
+        task = TaskFactory()
 
         # Assert
         assert task.author.first_name == 'john'
