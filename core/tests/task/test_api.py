@@ -1,7 +1,7 @@
-from tests.base import BaseTests
+from tests.base import BaseTest
 
 
-class TestTaskAPI(BaseTests):
+class TestTaskAPI(BaseTest):
 
     def test_new_object(self):
         assert 1 == 1

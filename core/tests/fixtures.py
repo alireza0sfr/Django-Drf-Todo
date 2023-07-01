@@ -1,5 +1,4 @@
 import pytest
-from rest_framework.test import APIClient
 
 from accounts.models import User, Profile
 
@@ -15,5 +14,4 @@ def GlobalFixtures():
     return {
         'user': user,
         'profile': profile,
-        'api_client': APIClient()
     }
