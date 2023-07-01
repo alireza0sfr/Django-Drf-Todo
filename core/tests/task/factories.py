@@ -1,5 +1,6 @@
 from factory.django import DjangoModelFactory
 from factory import SubFactory
+from factory.faker import Faker
 
 
 from tests.accounts.factories import ProfileFactory
@@ -8,7 +9,7 @@ from tests.base import BaseFactory
 
 
 class CategoryFactory(DjangoModelFactory, BaseFactory):
-    name = 'test-category'
+    name = Faker('name')
 
     class Meta:
         model = 'task.Category'
@@ -17,8 +18,8 @@ class CategoryFactory(DjangoModelFactory, BaseFactory):
 class TaskFactory(DjangoModelFactory, BaseFactory):
         
     author = SubFactory(ProfileFactory)
-    title = 'test-title'
-    content = 'test-content'
+    title = Faker('text')
+    content = Faker('sentence')
     status = TaskStatus.PUBLISHED
     category = SubFactory(CategoryFactory)
     priority = TaskPriority.LOW
