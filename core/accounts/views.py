@@ -127,7 +127,7 @@ class ProfileViewSet(ViewSet):
         return Response(serializer.data)
     
 
-class ActivationEmail(ViewSet):
+class ActivationEmailViewSet(ViewSet):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
