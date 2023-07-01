@@ -1,22 +1,43 @@
 import pytest
+from django.urls import reverse
 
 from tests.base import BaseTest
 from .factories import TaskFactory
+from tests.accounts.factories import UserFactory
 from enums.task import TaskPriority, TaskStatus
 
 class TestTaskAPI(BaseTest):
     
+    list_url = reverse('tasks-list')
+
     @pytest.mark.django_db
-    def test_new_object(self):
+    def test_create_object_response_401(self):
 
         # Arrange
         task = TaskFactory()
 
+        # Act
+        response = self.api_client.post(self.list_url)
+        
         # Assert
-        # assert task.author.first_name == 'john'
-        # assert task.title == 'test-title'
-        # assert task.content == 'test-content'
-        # assert task.status == TaskStatus.PUBLISHED
-        # assert task.priority == TaskPriority.LOW
-        # assert task.category.name == 'test-category'
+        assert response.status_code == 401
+
+    @pytest.mark.django_db
+    def test_create_object_response_201(self):
+
+        # Arrange
+        task = TaskFactory.build()
+        
+        # Act
+        self.api_client.force_authenticate(UserFactory())
+        response = self.api_client.post(self.list_url, data={
+            'title': task.title,
+            'content': task.content,
+            'status': task.status,
+            'priority': task.priority,
+        })
+
+        # Assert
+        assert response.data.get('title') == task.title
+        assert response.status_code == 201
         
