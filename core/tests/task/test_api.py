@@ -4,7 +4,6 @@ from django.urls import reverse
 from tests.base import BaseTest
 from .factories import TaskFactory
 from tests.accounts.factories import UserFactory
-from enums.task import TaskPriority, TaskStatus
 
 class TestTaskAPI(BaseTest):
     
