@@ -1,3 +1,5 @@
+from random import choice
+
 from factory.django import DjangoModelFactory
 from factory import SubFactory
 from factory.faker import Faker
@@ -20,9 +22,9 @@ class TaskFactory(DjangoModelFactory, BaseFactory):
     author = SubFactory(ProfileFactory)
     title = Faker('text')
     content = Faker('sentence')
-    status = TaskStatus.PUBLISHED
+    status = choice(TaskStatus.choices)
     category = SubFactory(CategoryFactory)
-    priority = TaskPriority.LOW
+    priority = choice(TaskPriority.choices)
 
     class Meta:
         model = 'task.Task'
