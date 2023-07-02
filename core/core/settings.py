@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'mail_templated',
     'phonenumber_field',
+    "corsheaders",
 
     # Apps
     'accounts',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -189,3 +191,10 @@ EMAIL_FROM = 'b@b.com'
 PHONENUMBER_DB_FORMAT = 'E164'
 PHONENUMBER_DEFAULT_REGION = 'IR'
 PHONENUMBER_DEFAULT_FORMAT = 'E164'
+
+# CORS
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080/',
+    'http://localhost:8081/'
+]
+CORS_ALLOW_ALL_ORIGINS = False
