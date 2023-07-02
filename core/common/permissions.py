@@ -41,6 +41,9 @@ class IsSuperUser(BasePermission):
 
 class isOwnerOrReadonly(BasePermission):
 
+    def has_permission(self, request, view):
+        return True
+    
     def has_object_permission(self, request, view, obj):
         parent_access = super().has_object_permission(request, view, obj)
         return parent_access or obj.author == request.user.id
@@ -54,3 +57,6 @@ class IsAuthenticatedAndIsVerified(BasePermission):
             request.user.is_authenticated and
             request.user.is_verified
         )
+    
+    def has_object_permission(self, request, view, obj):
+        return True
