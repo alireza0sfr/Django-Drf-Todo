@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from task.models import Task
-from tests.task.factories import TaskFactory
+from factories.task import TaskFactory
 
 class Command(BaseCommand):
     help = "Inserts 5 dummy tasks."

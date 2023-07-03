@@ -2,8 +2,8 @@ import pytest
 from django.urls import reverse
 
 from tests.base import BaseTest
-from .factories import TaskFactory
-from tests.accounts.factories import UserFactory
+from factories.task import TaskFactory
+from factories.accounts import UserFactory
 
 class TestTaskAPI(BaseTest):
     

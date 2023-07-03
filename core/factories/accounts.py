@@ -8,7 +8,6 @@ class UserFactory(DjangoModelFactory, BaseFactory):
   
   email = Faker('email')
   password = 'a@123456'
-  
   is_verified = True
 
   class Meta:

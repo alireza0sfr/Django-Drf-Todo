@@ -5,7 +5,7 @@ from factory import SubFactory
 from factory.faker import Faker
 
 
-from tests.accounts.factories import ProfileFactory
+from factories.accounts import ProfileFactory
 from enums.task import TaskPriority, TaskStatus
 from tests.base import BaseFactory
 
