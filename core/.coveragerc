@@ -1,0 +1,2 @@
+[run]
+omit = */migrations/*, **/__init__.py, core/*, manage.py, tests/*
