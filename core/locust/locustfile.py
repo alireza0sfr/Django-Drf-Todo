@@ -1,6 +1,6 @@
 from locust import HttpUser, task
 
-from tests.accounts.factories import UserFactory
+from factories.accounts import UserFactory
 
 class QuickStartUser(HttpUser):
     base_url = 'api/v1.0'
