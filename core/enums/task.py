@@ -8,7 +8,7 @@ class TaskStatus(models.IntegerChoices):
     DELETED = 4, 'Deleted'
 
 
-class TaskPriority(models.TextChoices):
+class TaskPriority(models.IntegerChoices):
     HIGH = 1, 'High'
     MEDIUM = 2, 'Medium'
     LOW = 3, 'Low'
