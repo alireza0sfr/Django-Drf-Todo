@@ -32,3 +32,4 @@ factory_boy
 django-redis
 
 # Deployment
+gunicorn
