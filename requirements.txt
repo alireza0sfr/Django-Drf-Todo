@@ -28,4 +28,7 @@ pytest-django
 pytest-cov
 factory_boy
 
+# Background Process & Cache
+django-redis
+
 # Deployment
