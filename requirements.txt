@@ -30,6 +30,7 @@ factory_boy
 
 # Background Process & Cache
 django-redis
+django_celery_beat
 
 # Deployment
 gunicorn

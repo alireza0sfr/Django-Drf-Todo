@@ -1,5 +1,13 @@
 version: "3.9"
 services:
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+
   backend:
     build: .
     container_name: backend
@@ -11,6 +19,31 @@ services:
     environment:
       - SECRET_KEY=django-insecure-q+dt#g!@--8vr9=)9!1$g1b+#21x#wa7!c#5j!ld=u4j5pxz$y
       - DEBUG=True
+    depends_on:
+      - redis
+  
+  celery:
+    build: .
+    container_name: celery
+    command: celery -A core worker --loglevel=info
+    volumes:
+      - ./core:/app
+    depends_on:
+      - redis
+      - backend
+  
+  beat:
+    build: .
+    container_name: beat
+    command: celery -A core beat --loglevel=info
+    restart: always
+    volumes:
+      - ./core:/app
+    depends_on:
+      - celery
+      - redis
+      - backend
+
   smtp4dev:
     image: rnwood/smtp4dev:v3
     restart: always
@@ -26,7 +59,7 @@ services:
     environment:
       - ServerOptions__HostName=smtp4dev
 
-  master:
+  locust:
     image: locustio/locust
     ports:
      - "8089:8089"
@@ -34,8 +67,10 @@ services:
       - ./core/locust:/mnt/locust
     command: -f /mnt/locust/locustfile.py --master -H http://backend:8000
   
-  worker:
+  locustworker:
     image: locustio/locust
+    depends_on:
+      - locust
     volumes:
       - ./core/locust:/mnt/locust
     command: -f /mnt/locust/locustfile.py --worker --master-host master

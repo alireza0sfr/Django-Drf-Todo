@@ -209,3 +209,11 @@ CACHES = {
         }
     }
 }
+# Celery
+CELERY_BROKER_URL = 'redis://redis:6379/1'
+CELERY_BEAT_SCHEDULE = {
+    'delete_done_tasks': {
+        'task': 'task.tasks.delete_done_tasks',
+        'schedule': 600
+    }
+}
