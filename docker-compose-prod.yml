@@ -1,0 +1,68 @@
+version: "3.9"
+services:
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+
+  backend:
+    build: .
+    container_name: backend
+    command: sh -c "python3 manage.py check_database && python3 manage.py makemigrations --noinput && python3 manage.py migrate --run-syncdb --noinput && python3 manage.py init_admin && python3 manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 core.wsgi:application"
+    volumes:
+      - ./core:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+
+    expose:
+      - "8000"
+    environment:
+      - SECRET_KEY=django-insecure-q+dt#g!@--8vr9=)9!1$g1b+#21x#wa7!c#5j!ld=u4j5pxz$y
+      - DEBUG=False
+    depends_on:
+      - redis
+  
+  celery:
+    build: .
+    container_name: celery
+    command: celery -A core worker --loglevel=info
+    volumes:
+      - ./core:/app
+    depends_on:
+      - redis
+      - backend
+  
+  beat:
+    build: .
+    container_name: beat
+    command: celery -A core beat --loglevel=info
+    restart: always
+    volumes:
+      - ./core:/app
+    depends_on:
+      - celery
+      - redis
+      - backend
+  
+  nginx:
+    image: nginx
+    container_name: nginx
+    restart: always
+    ports: 
+      - "80:80"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/home/app/static
+      - media_volume:/home/app/media
+    depends_on:
+      - redis
+      - backend
+
+
+volumes:
+  static_volume:
+  media_volume:
+  seq-data:
